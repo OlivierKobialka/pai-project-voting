@@ -4,8 +4,8 @@ import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { Game } from "../components";
 import { CustomJwtPayload, IGame, IVote } from "../types";
+import Game from "../components/Game";
 
 export default function Home() {
     const { isSignedIn, user } = useUser();
@@ -75,20 +75,12 @@ export default function Home() {
     };
 
     return (
-        <div className="main-container">
-            <main className="flex flex-wrap justify-center">
-                {isSignedIn
-                    ? games.map((game) => (
-                          <Game
-                              key={game.nazwa}
-                              {...game}
-                              hasVoted={hasVoted}
-                              onVote={handleVote}
-                              user={loggedInUser}
-                          />
-                      ))
-                    : games.map((game: IGame) => <Game key={game.nazwa} {...game} />)}
-            </main>
-        </div>
+        <main className="grid w-screen grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-5 sm:px-10 py-10 gap-10 sm:gap-6">
+            {isSignedIn
+                ? games.map((game) => (
+                      <Game key={game.nazwa} {...game} hasVoted={hasVoted} onVote={handleVote} user={loggedInUser} />
+                  ))
+                : games.map((game: IGame) => <Game key={game.nazwa} {...game} />)}
+        </main>
     );
 }
