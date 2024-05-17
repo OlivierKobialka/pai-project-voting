@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import connect from "../../../db";
-import Vote from "../../../db/schema/Vote";
+import { Vote } from "@db/schema";
+import connect from "@db/index";
 
 export const revalidate = 1;
 export async function POST(request: Request) {

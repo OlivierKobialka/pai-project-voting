@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import connect from "../../../db";
-import Admin from "../../../db/schema/Admin";
+import { Admin } from "@db/schema";
+import connect from "@db/index";
 
 export const revalidate = 1;
 export async function POST(request: NextRequest, response: NextResponse) {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import connect from "../../../db";
-import { Game } from "../../../db/schema";
+import connect from "@db/index";
+import { Game } from "@db/schema";
 
 export const revalidate = 1;
 export async function GET(request: Request) {

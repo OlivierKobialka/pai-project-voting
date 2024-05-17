@@ -4,9 +4,8 @@ import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { CustomJwtPayload, IExtendedGame, IGame, IVote } from "../types";
-import Game from "../components/game/Game";
 import CategorySection from "../components/game/CategorySection";
+import { CustomJwtPayload, IVote } from "../types";
 
 export default function Home(): JSX.Element {
     const { isSignedIn, user } = useUser();
