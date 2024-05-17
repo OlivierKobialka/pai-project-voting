@@ -12,16 +12,37 @@ export interface IVote {
 }
 
 export interface IGame {
-    nazwa: string;
-    opis: string;
-    baner: string;
-    strona: string;
-    typ: string;
+    name: string;
+    description: string;
+    image: string;
+    website: string;
+    category: string;
     data: string;
+    voteCount: number;
 }
 
 export interface IExtendedGame extends IGame {
     hasVoted?: boolean;
     onVote?: (gameName: string) => void;
     user?: CustomJwtPayload | null;
+}
+
+export enum GameCategory {
+    ACTION = "action",
+    ADVENTURE = "adventure",
+    CASINO = "casino",
+    CASUAL = "casual",
+    EDUCATIONAL = "educational",
+    FAMILY = "family",
+    FIGHTING = "fighting",
+    MUSIC = "music",
+    RACING = "racing",
+    ROLE_PLAYING = "role-playing",
+    SHOOTER = "shooter",
+    SIMULATION = "simulation",
+    SPORTS = "sports",
+    STRATEGY = "strategy",
+    SURVIVAL = "survival",
+    TRIVIA = "trivia",
+    WORD = "word",
 }

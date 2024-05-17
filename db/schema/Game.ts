@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 const gameSchema = new mongoose.Schema({
-    nazwa: String,
-    opis: String,
-    baner: String,
-    strona: String,
-    typ: String,
+    name: String,
+    description: String,
+    image: String,
+    website: String,
+    category: String,
     data: Date,
+    voteCount: Number,
 });
 
 const Game = mongoose.models.Game || mongoose.model("Game", gameSchema);

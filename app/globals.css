@@ -73,4 +73,16 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    .vote__button {
+        @apply bg-[#0CC38B] w-full flex items-center justify-center text-center hover:opacity-80 duration-500 transition-all ease-in-out text-white font-bold py-1 sm:py-2 md:py-3 px-3 sm:px-4 rounded-2xl mr-2 hover:bg-white hover:text-[#0CC38B] hover:shadow-lg;
+    }
+
+    .game__card__modal__image {
+        @apply w-full rounded-xl rounded-b-none object-cover object-center;
+    }
+
+    .nav__button {
+        @apply bg-[#0CC38B] hover:opacity-80 duration-500 transition-all ease-in-out text-white font-bold py-1 sm:py-2 px-3 sm:px-4 rounded mr-2;
+    }
 }

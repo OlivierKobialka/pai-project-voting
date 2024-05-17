@@ -4,19 +4,31 @@ import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { CustomJwtPayload, IGame, IVote } from "../types";
-import Game from "../components/Game";
+import { CustomJwtPayload, IExtendedGame, IGame, IVote } from "../types";
+import Game from "../components/game/Game";
+import CategorySection from "../components/game/CategorySection";
 
-export default function Home() {
+export default function Home(): JSX.Element {
     const { isSignedIn, user } = useUser();
     const name = user?.firstName || user?.username || `user_${Math.floor(Math.random() * 1000)}`;
     const email = user?.primaryEmailAddress?.emailAddress;
     const [votes, setVotes] = useState([]);
     const [hasVoted, setHasVoted] = useState<boolean>(false);
-    const [games, setGames] = useState<IGame[]>([]);
-    const [vote, setVote] = useState("");
+    const [categories, setCategories] = useState<string[]>([]);
     const [loggedInUser, setLoggedInUser] = useState<CustomJwtPayload | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const fetchGameCategories = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get("/api/get-game-categories");
+            setCategories(response.data.categories);
+        } catch (error) {
+            console.error("Nie udało się pobrać kategorii gier", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -24,19 +36,8 @@ export default function Home() {
             const decoded = jwtDecode<CustomJwtPayload>(token);
             setLoggedInUser(decoded);
         }
-        const fetchGames = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get("/api/get-game");
-                setGames(response.data.games);
-                console.log(response.data);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchGames();
+
+        fetchGameCategories();
     }, []);
 
     useEffect(() => {
@@ -57,30 +58,23 @@ export default function Home() {
         fetchVotes();
     }, [email]);
 
-    const handleVote = async (gameName: string): Promise<void> => {
-        setVote(gameName);
-        try {
-            setLoading(true);
-            await axios.post("/api/vote", {
-                name,
-                email,
-                vote: gameName,
-            });
-            setHasVoted(true);
-        } catch (error) {
-            console.error("Nie udało się oddać głosu", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
-        <main className="grid w-screen grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-5 sm:px-10 py-10 gap-10 sm:gap-6">
-            {isSignedIn
-                ? games.map((game) => (
-                      <Game key={game.nazwa} {...game} hasVoted={hasVoted} onVote={handleVote} user={loggedInUser} />
-                  ))
-                : games.map((game: IGame) => <Game key={game.nazwa} {...game} />)}
+        <main className="w-screen py-10 flex flex-col items-center justify-between">
+            {loading && (
+                <div className="w-screen flex items-center justify-center text-center font-semibold text-3x pt-40">
+                    Loading...
+                </div>
+            )}
+            {categories.map((category: string) => (
+                <CategorySection
+                    key={category}
+                    category={category}
+                    isSignedIn={isSignedIn}
+                    name={name}
+                    email={email}
+                    loggedInUser={loggedInUser}
+                />
+            ))}
         </main>
     );
 }

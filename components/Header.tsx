@@ -1,10 +1,11 @@
 "use client";
 
 import { jwtDecode } from "jwt-decode";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { BRAND_NAME } from "../lib/utils";
 import { CustomJwtPayload } from "../types";
-import { Button } from "./ui/button";
+import AdminBtn from "./constants/AdminBtn";
+import LoginBtn from "./constants/LoginBtn";
 
 export default function Header() {
     const [loggedInUser, setLoggedInUser] = useState<CustomJwtPayload | null>(null);
@@ -18,19 +19,11 @@ export default function Header() {
     }, []);
 
     return (
-        <header className="bg-[#341F6A] text-white py-2 sm:py-4 px-3 sm:px-6 flex justify-between items-center">
-            <div className="flex font-bold uppercase text-2xl items-center">Poller</div>
+        <header className="bg-[#341F6A] text-white w-screen py-4 px-6 lg:py-7 lg:px-14 flex justify-between items-center">
+            <div className="flex font-bold uppercase text-2xl items-center">{BRAND_NAME}</div>
             <div>
-                {!loggedInUser && (
-                    <Button className="bg-[#0CC38B] hover:opacity-80 duration-500 transition-all ease-in-out text-white font-bold py-1 sm:py-2 px-3 sm:px-4 rounded mr-2">
-                        <Link href={"/sign-in"}>Sign In</Link>
-                    </Button>
-                )}
-                {loggedInUser?.admin && (
-                    <Button className="bg-[#0CC38B] hover:opacity-80 duration-500 transition-all ease-in-out text-white font-bold py-1 sm:py-2 px-3 sm:px-4 rounded mr-2">
-                        <Link href={"/admin"}>Admin</Link>
-                    </Button>
-                )}
+                {!loggedInUser && <LoginBtn />}
+                {loggedInUser?.admin && <AdminBtn />}
             </div>
         </header>
     );
