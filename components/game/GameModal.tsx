@@ -6,11 +6,12 @@ import { IExtendedGame } from "../../types";
 
 export default function GameModal({
     name,
+    path_name,
     description,
     image,
     website,
     category,
-    data,
+    date,
     hasVoted,
     onVote,
     user,
@@ -22,10 +23,18 @@ export default function GameModal({
                 <Image width={100000} height={100000000} className="game__card__modal__image" src={image} alt={name} />
                 <div className="w-full p-3 flex flex-col items-start justify-between">
                     <div className="pb-3">
-                        <Link href={`/g/${name}`} className="text-xl sm:text-2xl font-bold hover:underline text-left">
+                        <Link
+                            href={`/g/${path_name}`}
+                            className="text-xl sm:text-2xl font-bold hover:underline text-left"
+                        >
                             {name}
                         </Link>
-                        <p className="text-sm md:text-base text-gray-500 hover:underline text-left">{description}</p>
+                        <Link
+                            href={`/g/${path_name}`}
+                            className="text-sm md:text-base text-gray-500 hover:underline text-left"
+                        >
+                            {description}
+                        </Link>
                         <Link href={website} className="text-blue-500 hover:text-blue-700">
                             Strona gry
                         </Link>
@@ -33,7 +42,7 @@ export default function GameModal({
                             Kategoria: <span className="font-semibold">{category.toUpperCase()}</span>
                         </p>
                         <p className="text-sm sm:text-base text-gray-500">
-                            Data premiery: <span className="font-semibold">{new Date(data).toLocaleDateString()}</span>
+                            Data premiery: <span className="font-semibold">{new Date(date).toLocaleDateString()}</span>
                         </p>
                     </div>
 

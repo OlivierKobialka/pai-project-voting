@@ -9,11 +9,12 @@ import { IExtendedGame } from "../../types";
 
 export default function Game({
     name,
+    path_name,
     description,
     image,
     website,
     category,
-    data,
+    date,
     hasVoted,
     onVote,
     user,
@@ -56,11 +57,12 @@ export default function Game({
             </DialogTrigger>
             <GameModal
                 name={name}
+                path_name={path_name}
                 description={description}
                 image={image}
                 website={website}
                 category={category}
-                data={data}
+                date={date}
                 hasVoted={hasVoted}
                 onVote={onVote}
                 user={user}

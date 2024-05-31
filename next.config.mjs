@@ -9,6 +9,7 @@ const nextConfig = {
             "cdn1.epicgames.com",
             "upload.wikimedia.org",
             "static.wikia.nocookie.net",
+            "media.steampowered.com",
         ],
     },
 };

@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import PreviewGameImage from "../../../components/constants/PreviewGameImage";
+import PreviewGameImageAdmin from "../../../components/constants/PreviewGameImageAdmin";
 import { Button } from "../../../components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
@@ -15,9 +15,13 @@ import { Textarea } from "../../../components/ui/textarea";
 import { FormSchema } from "../../../lib/validators/formSchema";
 import { Undo2 } from "lucide-react";
 import { CustomJwtPayload } from "../../../types";
+import { useRouter } from "next/navigation";
+import { useToast } from "../../../components/ui/use-toast";
 
 export default function Admin(): JSX.Element {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const router = useRouter();
+    const { toast } = useToast();
 
     useEffect(() => {
         const token: string | null = localStorage.getItem("token");
@@ -35,6 +39,7 @@ export default function Admin(): JSX.Element {
         try {
             await axios.post("/api/add-game", {
                 name: form.getValues("name"),
+                path_name: form.getValues("name").toLowerCase().replace(/\s/g, "-"),
                 description: form.getValues("description"),
                 category: form.getValues("category"),
                 date: form.getValues("date"),
@@ -42,9 +47,18 @@ export default function Admin(): JSX.Element {
                 image: form.getValues("image"),
             });
 
+            toast({
+                title: "Dodane pomyślnie!",
+                description: "Gra została dodana pomyślnie.",
+            });
             form.reset();
+            router.push(`/g/${form.getValues("name").toLowerCase().replace(/\s/g, "-")}`);
         } catch (error) {
-            console.error(error);
+            toast({
+                title: "Error",
+                description: "Nie udało się dodać gry. Spróbuj ponownie.",
+                variant: "destructive",
+            });
         }
     };
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -59,18 +73,18 @@ export default function Admin(): JSX.Element {
         },
     });
 
-    if (!isAdmin) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-                <p className="text-3xl font-bold mb-4 text-black px-20 text-center">
-                    Please log in as an admin to access this page
-                </p>
-                <Button onClick={() => window.history.back()} className="vote__button w-32 gap-x-2">
-                    Go back <Undo2 size={20} />
-                </Button>
-            </div>
-        );
-    }
+    // if (!isAdmin) {
+    //     return (
+    //         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    //             <p className="text-3xl font-bold mb-4 text-black px-20 text-center">
+    //                 Please log in as an admin to access this page
+    //             </p>
+    //             <Button onClick={() => window.history.back()} className="vote__button w-32 gap-x-2">
+    //                 Go back <Undo2 size={20} />
+    //             </Button>
+    //         </div>
+    //     );
+    // }
 
     return (
         <main className="w-screen flex flex-col p-10">
@@ -183,7 +197,7 @@ export default function Admin(): JSX.Element {
                                                 {...field}
                                             />
                                         </FormControl>
-                                        <PreviewGameImage image={form.getValues("image")} />
+                                        <PreviewGameImageAdmin image={form.getValues("image")} />
                                     </section>
                                     <FormMessage />
                                 </FormItem>

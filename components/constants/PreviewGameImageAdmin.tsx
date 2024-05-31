@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import Image from "next/image";
 
-export default function PreviewGameImage({ image }: { image: string }): JSX.Element | null {
+export default function PreviewGameImageAdmin({ image }: { image: string }): JSX.Element | null {
     return image && image.length > 0 ? (
         <Dialog>
             <DialogTrigger>

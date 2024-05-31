@@ -13,11 +13,12 @@ export interface IVote {
 
 export interface IGame {
     name: string;
+    path_name: string;
     description: string;
     image: string;
     website: string;
     category: string;
-    data: string;
+    date: string;
     voteCount: number;
 }
 
