@@ -21,7 +21,7 @@ export default function Game({
 }: IExtendedGame): JSX.Element {
     return (
         <Dialog>
-            <DialogTrigger className="rounded-xl shadow-md cursor-pointer w-screen">
+            <DialogTrigger className="rounded-xl shadow-md cursor-pointer w-screen sm:w-96">
                 <Image width={100000} height={100000000} className="game__card__modal__image" src={image} alt={name} />
                 <div className="w-full p-3 flex flex-col items-start justify-between">
                     <div className="pb-3">

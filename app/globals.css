@@ -79,7 +79,7 @@
     }
 
     .game__card__modal__image {
-        @apply w-full rounded-xl rounded-b-none object-cover object-center;
+        @apply w-full rounded-xl rounded-b-none object-cover object-center max-h-80;
     }
 
     .nav__button {

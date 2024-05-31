@@ -6,6 +6,7 @@ import { BRAND_NAME } from "../lib/utils";
 import { CustomJwtPayload } from "../types";
 import AdminBtn from "./constants/AdminBtn";
 import LoginBtn from "./constants/LoginBtn";
+import Link from "next/link";
 
 export default function Header() {
     const [loggedInUser, setLoggedInUser] = useState<CustomJwtPayload | null>(null);
@@ -20,7 +21,9 @@ export default function Header() {
 
     return (
         <header className="bg-[#341F6A] text-white w-screen py-4 px-6 lg:py-7 lg:px-14 flex justify-between items-center">
-            <div className="flex font-bold uppercase text-2xl items-center">{BRAND_NAME}</div>
+            <Link href={"/"} className="flex font-bold uppercase text-2xl items-center">
+                {BRAND_NAME}
+            </Link>
             <div>
                 {!loggedInUser && <LoginBtn />}
                 {loggedInUser?.admin && <AdminBtn />}

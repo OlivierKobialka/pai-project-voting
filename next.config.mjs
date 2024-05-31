@@ -7,6 +7,8 @@ const nextConfig = {
             "cdn.akamai.steamstatic.com",
             "cdn.cloudflare.steamstatic.com",
             "cdn1.epicgames.com",
+            "upload.wikimedia.org",
+            "static.wikia.nocookie.net",
         ],
     },
 };

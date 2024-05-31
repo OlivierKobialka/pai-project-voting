@@ -6,9 +6,13 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import CategorySection from "../components/game/CategorySection";
 import { CustomJwtPayload, IVote } from "../types";
+import { Toast } from "../components/ui/toast";
+import { useToast } from "../components/ui/use-toast";
+import Loader from "../components/constants/Loader";
 
 export default function Home(): JSX.Element {
     const { isSignedIn, user } = useUser();
+    const { toast } = useToast();
     const name = user?.firstName || user?.username || `user_${Math.floor(Math.random() * 1000)}`;
     const email = user?.primaryEmailAddress?.emailAddress;
     const [votes, setVotes] = useState([]);
@@ -23,7 +27,10 @@ export default function Home(): JSX.Element {
             const response = await axios.get("/api/get-game-categories");
             setCategories(response.data.categories);
         } catch (error) {
-            console.error("Nie udało się pobrać kategorii gier", error);
+            toast({
+                title: "Error",
+                description: "Failed to fetch game categories",
+            });
         } finally {
             setLoading(false);
         }
@@ -40,7 +47,7 @@ export default function Home(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        const fetchVotes = async () => {
+        const fetchVotes = async (): Promise<void> => {
             try {
                 setLoading(true);
                 const response = await axios.get("/api/get-vote");
@@ -49,6 +56,10 @@ export default function Home(): JSX.Element {
                 setHasVoted(voted);
             } catch (error) {
                 console.error("Nie udało się pobrać danych o głosach", error);
+                toast({
+                    title: "Error",
+                    description: "Failed to fetch votes",
+                });
             } finally {
                 setLoading(false);
             }
@@ -59,11 +70,8 @@ export default function Home(): JSX.Element {
 
     return (
         <main className="w-screen py-10 flex flex-col items-center justify-between">
-            {loading && (
-                <div className="w-screen flex items-center justify-center text-center font-semibold text-3x pt-40">
-                    Loading...
-                </div>
-            )}
+            {!categories && !loading && <h1 className="text-black">No games found</h1>}
+            {loading && <Loader />}
             {categories.map((category: string) => (
                 <CategorySection
                     key={category}
